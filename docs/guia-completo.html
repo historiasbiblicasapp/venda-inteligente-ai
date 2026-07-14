@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Guia Completo - Venda Inteligente AI</title>
+  <style>
+    @page { margin: 2cm; size: A4; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; color: #1a1a2e; line-height: 1.6; background: #fff; }
+    .cover { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #4c6ef5 0%, #3b5bdb 100%); color: white; text-align: center; page-break-after: always; }
+    .cover h1 { font-size: 48px; margin-bottom: 16px; }
+    .cover p { font-size: 20px; opacity: 0.9; }
+    .cover .version { margin-top: 40px; font-size: 14px; opacity: 0.7; }
+    .toc { padding: 40px; page-break-after: always; }
+    .toc h2 { font-size: 28px; color: #4c6ef5; margin-bottom: 24px; border-bottom: 3px solid #4c6ef5; padding-bottom: 8px; }
+    .toc ul { list-style: none; }
+    .toc li { padding: 8px 0; border-bottom: 1px solid #eee; font-size: 16px; }
+    .toc li span { color: #4c6ef5; font-weight: bold; margin-right: 12px; }
+    .section { padding: 40px; page-break-before: always; }
+    .section h2 { font-size: 28px; color: #4c6ef5; margin-bottom: 20px; border-bottom: 3px solid #4c6ef5; padding-bottom: 8px; }
+    .section h3 { font-size: 20px; color: #333; margin: 20px 0 10px; }
+    .section p { margin-bottom: 12px; font-size: 15px; }
+    .step { background: #f8f9fa; border-left: 4px solid #4c6ef5; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+    .step strong { color: #4c6ef5; }
+    .tip { background: #fff3cd; border-left: 4px solid #ffc107; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+    .tip strong { color: #856404; }
+    .warning { background: #f8d7da; border-left: 4px solid #dc3545; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+    .warning strong { color: #721c24; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+    th { background: #4c6ef5; color: white; padding: 12px; text-align: left; }
+    td { padding: 10px 12px; border-bottom: 1px solid #eee; }
+    tr:nth-child(even) { background: #f8f9fa; }
+    code { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 13px; }
+    .feature-card { border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; margin: 12px 0; }
+    .feature-card h4 { color: #4c6ef5; margin-bottom: 8px; }
+    .workflow { display: flex; align-items: center; gap: 8px; margin: 12px 0; flex-wrap: wrap; }
+    .workflow .arrow { color: #4c6ef5; font-size: 20px; font-weight: bold; }
+    .workflow .box { background: #4c6ef5; color: white; padding: 8px 16px; border-radius: 8px; font-size: 14px; }
+    @media print { .cover { height: auto; min-height: 100vh; } }
+  </style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="cover">
+  <h1>Venda Inteligente AI</h1>
+  <p>Guia Completo de Utilizacao</p>
+  <p style="font-size: 16px; margin-top: 8px;">Como usar o aplicativo no maximo das suas capacidades</p>
+  <div class="version">Versao 1.0 | 2026</div>
+</div>
+
+<!-- SUMARIO -->
+<div class="toc">
+  <h2>Sumario</h2>
+  <ul>
+    <li><span>1</span> Visao Geral do Aplicativo</li>
+    <li><span>2</span> Como Criar Landing Pages que Vendem</li>
+    <li><span>3</span> Usando a IA para Copy e Imagens</li>
+    <li><span>4</span> Gerenciando Leads no CRM</li>
+    <li><span>5</span> Criando e Gerenciando Campanhas</li>
+    <li><span>6</span> Gerando Posts para Redes Sociais</li>
+    <li><span>7</span> Analisando Resultados nos Relatorios</li>
+    <li><span>8</span> Configuracoes e Webhooks</li>
+    <li><span>9</span> Dicas Avancadas para Maximize Vendas</li>
+    <li><span>10</span> Fluxo Completo: Do Post a Venda</li>
+  </ul>
+</div>
+
+<!-- SECAO 1 -->
+<div class="section">
+  <h2>1. Visao Geral do Aplicativo</h2>
+  <p>O <strong>Venda Inteligente AI</strong> e uma plataforma completa para criar paginas de vendas, gerenciar leads, criar campanhas e gerar conteudo com inteligencia artificial.</p>
+
+  <h3>Menu Principal (Sidebar)</h3>
+  <table>
+    <tr><th>Menu</th><th>O que faz</th><th>Quando usar</th></tr>
+    <tr><td><strong>Dashboard</strong></td><td>Visao geral com metricas</td><td>Todo dia para acompanhar resultados</td></tr>
+    <tr><td><strong>Landing Pages</strong></td><td>Criar e gerenciar paginas de vendas</td><td>Quando for vender qualquer coisa</td></tr>
+    <tr><td><strong>Campanhas</strong></td><td>Gerenciar anuncios e promocoes</td><td>Quando for divulgar nas redes</td></tr>
+    <tr><td><strong>CRM</strong></td><td>Gerenciar leads e contatos</td><td>Quando receber leads interesados</td></tr>
+    <tr><td><strong>IA Copy</strong></td><td>Gerar textos de vendas com IA</td><td>Para criar textos persuasivos</td></tr>
+    <tr><td><strong>IA Imagens</strong></td><td>Gerar imagens promocionais</td><td>Para criar imagens de anuncios</td></tr>
+    <tr><td><strong>Posts e Legendas</strong></td><td>Gerar posts completos</td><td>Para postar nas redes sociais</td></tr>
+    <tr><td><strong>Relatorios</strong></td><td>Ver metricas detalhadas</td><td>Semanalmente para analisar</td></tr>
+    <tr><td><strong>Configuracoes</strong></td><td>Editar perfil e preferencias</td><td>Na primeira vez e quando precisar</td></tr>
+  </table>
+
+  <div class="tip">
+    <strong>DICA:</strong> O dashboard e o ponto de partida. Verifique todos os dias para acompanhar leads, vendas e visitantes.
+  </div>
+</div>
+
+<!-- SECAO 2 -->
+<div class="section">
+  <h2>2. Como Criar Landing Pages que Vendem</h2>
+  <p>Landing pages sao paginas focadas em converter visitantes em clientes. O app tem <strong>16 templates prontos</strong> para diferentes nichos.</p>
+
+  <h3>Passo a Passo para Criar uma Landing Page</h3>
+
+  <div class="step">
+    <strong>Passo 1:</strong> Va em Landing Pages > Nova Pagina
+  </div>
+  <div class="step">
+    <strong>Passo 2:</strong> Escolha um template que combine com seu negocio. Templates disponiveis:
+    <br>- <strong>Venda de Produto:</strong> Para infoprodutos e e-books
+    <br>- <strong>Curso Online:</strong> Para lancamentos de cursos
+    <br>- <strong>Infoproduto:</strong> Cursos, mentorias, eBooks
+    <br>- <strong>E-commerce:</strong> Loja online, produtos fisicos
+    <br>- <strong>Consultoria:</strong> Servicos profissionais
+    <br>- <strong>Ministerio Evangelico:</strong> Pregacoes, testemunhos
+    <br>- <strong>Personal Trainer:</strong> Fitness, emagrecimento
+    <br>- <strong>Receitas/Culinaria:</strong> Food blogger, meal plan
+    <br>- <strong>Imobiliario:</strong> Imoveis, casas, apartamentos
+    <br>- <strong>Pet Shop:</strong> Produtos e servicos para animais
+    <br>- <strong>Beleza/Estetica:</strong> Maquiagem, skincare
+    <br>- <strong>Educacao Financeira:</strong> Investimentos, renda extra
+    <br>- <strong>Fotografo:</strong> Portfolio, ensaios, eventos
+    <br>- <strong>Musica Gospel:</strong> Shows, lancamentos
+    <br>- <strong>Eletronicos/Informatica:</strong> TVs, smartphones, notebooks
+  </div>
+  <div class="step">
+    <strong>Passo 3:</strong> Dique um titulo para a pagina e clique em "Criar e Editar"
+  </div>
+  <div class="step">
+    <strong>Passo 4:</strong> No editor visual, clique em cada componente para editar:
+    <br>- Altere textos, titulos e descricoes
+    <br>- Adicione imagens de fundo
+    <br>- Configure botoes e links
+    <br>- Mude cores e estilos
+  </div>
+  <div class="step">
+    <strong>Passo 5:</strong> Configure os pixels de rastreamento (Meta, TikTok, GA4) nas configuracoes da pagina
+  </div>
+  <div class="step">
+    <strong>Passo 6:</strong> Clique em "Publicar" para tornar a pagina ativa
+  </div>
+
+  <h3>Componentes Disponiveis</h3>
+  <table>
+    <tr><th>Componente</th><th>Funcao</th><th>Dica</th></tr>
+    <tr><td><strong>Banner</strong></td><td>Titulo principal com imagem de fundo</td><td>Use palavras de urgencia: "Ultimas Vagas", "So Hoje"</td></tr>
+    <tr><td><strong>Texto</strong></td><td>Blocos de texto com titulos</td><td>Fale sobre beneficios, nao caracteristicas</td></tr>
+    <tr><td><strong>Video</strong></td><td>Embedded de video (YouTube/Vimeo)</td><td>Videos de ate 3 minutos convertem mais</td></tr>
+    <tr><td><strong>Oferta</strong></td><td>Caixa de preco com features</td><td>Mostre desconto e preco original riscado</td></tr>
+    <tr><td><strong>FAQ</strong></td><td>Perguntas e respostas</td><td>Responda as objecoes antes delas surgirem</td></tr>
+    <tr><td><strong>Garantia</strong></td><td>Selo de garantia</td><td>Ofereca 7 a 30 dias de garantia</td></tr>
+    <tr><td><strong>Depoimentos</strong></td><td>Testemunhos de clientes</td><td>Use nomes reais e fotos reais</td></tr>
+    <tr><td><strong>Countdown</strong></td><td>Contagem regressiva</td><td>Crie urgencia: "Oferta termina em..."</td></tr>
+  </table>
+
+  <div class="tip">
+    <strong>DICA DE OURO:</strong> As paginas que mais vendem tem: Banner persuasivo + Prova Social + Oferta com desconto + Garantia + Urgencia (countdown).
+  </div>
+</div>
+
+<!-- SECAO 3 -->
+<div class="section">
+  <h2>3. Usando a IA para Copy e Imagens</h2>
+
+  <h3>IA Copy - Gerando Textos de Vendas</h3>
+  <div class="step">
+    <strong>Passo 1:</strong> Va em IA Copy no menu lateral
+  </div>
+  <div class="step">
+    <strong>Passo 2:</strong> Escolha o tipo de copy:
+    <br>- <strong>Headline:</strong> Titulo chamativo para anuncios
+    <br>- <strong>Descricao:</strong> Texto persuasivo para produtos
+    <br>- <strong>CTA (Chamada para Acao):</strong> Botoes que convertem
+    <br>- <strong>Email:</strong> Sequencias de email marketing
+    <br>- <strong>Anuncio:</strong> Textos para Facebook/Instagram Ads
+    <br>- <strong>Legenda:</strong> Legendas para posts
+  </div>
+  <div class="step">
+    <strong>Passo 3:</strong> Escolha o tom (Profissional, Casual, Urgente, Inspirador) e a plataforma
+  </div>
+  <div class="step">
+    <strong>Passo 4:</strong> Descreva seu produto/servico e clique em "Gerar com IA"
+  </div>
+  <div class="step">
+    <strong>Passo 5:</strong> Copie o resultado e use nas suas landing pages ou anuncios
+  </div>
+
+  <div class="tip">
+    <strong>DICA:</strong> Quanto mais detalhes voce der para a IA, melhor o resultado. Inclua: nome do produto, publico-alvo, beneficio principal e preco.
+  </div>
+
+  <h3>IA Imagens - Gerando Imagens Promocionais</h3>
+  <div class="step">
+    <strong>Passo 1:</strong> Va em IA Imagens no menu lateral
+  </div>
+  <div class="step">
+    <strong>Passo 2:</strong> Escolha o formato:
+    <br>- <strong>Feed Instagram (1080x1080):</strong> Posts quadrados
+    <br>- <strong>Stories/Reels (1080x1920):</strong> Conteudo vertical
+    <br>- <strong>Capa Facebook (1200x630):</strong> Links e posts
+    <br>- <strong>Banner Web (1920x1080):</strong> Para landing pages
+    <br>- <strong>Thumbnail YouTube (1280x720):</strong> Capas de video
+    <br>- <strong>Logo/Simbolo (512x512):</strong> Identidade visual
+  </div>
+  <div class="step">
+    <strong>Passo 3:</strong> Descreva a imagem que quer criar e clique em "Gerar"
+  </div>
+
+  <div class="tip">
+    <strong>DICA:</strong> Para melhor resultado, descreva: estilo (minimalista, colorido, profissional), cores, elementos e mood da imagem.
+  </div>
+</div>
+
+<!-- SECAO 4 -->
+<div class="section">
+  <h2>4. Gerenciando Leads no CRM</h2>
+  <p>O CRM (Customer Relationship Management) e onde voce gerencia todos os contatos interessados no seu produto.</p>
+
+  <h3>Como Funciona</h3>
+  <div class="workflow">
+    <div class="box">Lead Chega</div>
+    <div class="arrow">&rarr;</div>
+    <div class="box">Status: Novo</div>
+    <div class="arrow">&rarr;</div>
+    <div class="box">Entrar em Contato</div>
+    <div class="arrow">&rarr;</div>
+    <div class="box">Converter</div>
+  </div>
+
+  <h3>Status dos Leads</h3>
+  <table>
+    <tr><th>Status</th><th>Significado</th><th>O que fazer</th></tr>
+    <tr><td><strong>Novo</strong></td><td>Acabou de chegar</td><td>Responda em ate 24h</td></tr>
+    <tr><td><strong>Contatado</strong></td><td>Voce ja entrou em contato</td><td>Aguardar resposta ou follow-up</td></tr>
+    <tr><td><strong>Convertido</strong></td><td>Comprou seu produto</td><td>Agradecer e oferecer proxima compra</td></tr>
+    <tr><td><strong>Perdido</strong></td><td>Nao comprou</td><td>Verificar motivo e melhorar</td></tr>
+  </table>
+
+  <h3>Adicionando Leads Manualmente</h3>
+  <div class="step">
+    <strong>Passo 1:</strong> Va em CRM > "Adicionar Lead"
+  </div>
+  <div class="step">
+    <strong>Passo 2:</strong> Preencha: Nome, Email, Telefone (opcional), Origem e Status
+  </div>
+  <div class="step">
+    <strong>Passo 3:</strong> Clique em "Salvar"
+  </div>
+
+  <div class="tip">
+    <strong>DICA:</strong> Use as tags para organizar leads por interesse. Exemplo: "interesse-alto", "comprou-ebook", "lead-gratis".
+  </div>
+</div>
+
+<!-- SECAO 5 -->
+<div class="section">
+  <h2>5. Criando e Gerenciando Campanhas</h2>
+  <p>Campanhas representam seus esforcos de marketing em cada plataforma.</p>
+
+  <h3>Criando uma Campanha</h3>
+  <div class="step">
+    <strong>Passo 1:</strong> Va em Campanhas > "Nova Campanha"
+  </div>
+  <div class="step">
+    <strong>Passo 2:</strong> Configure:
+    <br>- <strong>Nome:</strong> Descritivo (ex: "Promocao Verao Instagram")
+    <br>- <strong>Plataforma:</strong> Facebook, Instagram, TikTok, Kwai ou Google
+    <br>- <strong>Orcamento:</strong> Quanto pretende investir
+    <br>- <strong>Landing Page:</strong> Vincule a pagina de vendas
+  </div>
+  <div class="step">
+    <strong>Passo 3:</strong> Use o status "Pausado" para criar e "Ativo" quando for divulgar
+  </div>
+
+  <h3>Estrategia por Plataforma</h3>
+  <table>
+    <tr><th>Plataforma</th><th>Melhor para</th><th>Formato ideal</th></tr>
+    <tr><td><strong>Instagram</strong></td><td>Produtos visuais, moda, beleza</td><td>Reels + Carrossel + Stories</td></tr>
+    <tr><td><strong>Facebook</strong></td><td>Publico 30+, infoprodutos</td><td>Video + Link + Carrossel</td></tr>
+    <tr><td><strong>TikTok</strong></td><td>Publico jovem, tendencias</td><td>Reels autenticos, 15-60s</td></tr>
+    <tr><td><strong>Kwai</strong></td><td>Publico Brasil, interior</td><td>Reels caseiros, humor</td></tr>
+    <tr><td><strong>Google</strong></td><td>Intencao de compra alta</td><td>Texto + Remarketing</td></tr>
+  </table>
+</div>
+
+<!-- SECAO 6 -->
+<div class="section">
+  <h2>6. Gerando Posts para Redes Sociais</h2>
+  <p>A ferramenta "Posts e Legendas" gera conteudo completo para voce postar.</p>
+
+  <h3>Passo a Passo</h3>
+  <div class="step">
+    <strong>Passo 1:</strong> Va em Posts e Legendas
+  </div>
+  <div class="step">
+    <strong>Passo 2:</strong> Escolha a plataforma (Instagram, Facebook, TikTok, etc.)
+  </div>
+  <div class="step">
+    <strong>Passo 3:</strong> Descreva o assunto do post
+  </div>
+  <div class="step">
+    <strong>Passo 4:</strong> Ative as opcoes desejadas:
+    <br>- <strong>Emojis:</strong> Adiciona emojis relevantes
+    <br>- <strong>Hashtags:</strong> Gera hashtags populares
+    <br>- <strong>CTA:</strong> Inclui chamada para acao
+  </div>
+  <div class="step">
+    <strong>Passo 5:</strong> Clique em "Gerar" e copie o resultado
+  </div>
+
+  <h3>Calendario de Postagem Sugerido</h3>
+  <table>
+    <tr><th>Dia</th><th>Tipo de Post</th><th>Objetivo</th></tr>
+    <tr><td>Segunda</td><td>Educacional (dica)</td><td>Gerar autoridade</td></tr>
+    <tr><td>Terca</td><td>Depoimento de cliente</td><td>Prova social</td></tr>
+    <tr><td>Quarta</td><td>Atras dos bastidores</td><td>Conexao emocional</td></tr>
+    <tr><td>Quinta</td><td>Oferta/Promocao</td><td>Vendas diretas</td></tr>
+    <tr><td>Sexta</td><td>Entretenimento/Humor</td><td>Engajamento</td></tr>
+    <tr><td>Sabado</td><td>Inspiracional</td><td>Lealdade</td></tr>
+    <tr><td>Domingo</td><td>Descanso ou Story leve</td><td>Presenca</td></tr>
+  </table>
+
+  <div class="tip">
+    <strong>DICA:</strong> Poste entre 18h e 21h quando o publico esta mais ativo. Nos fins de semana, entre 10h e 12h.
+  </div>
+</div>
+
+<!-- SECAO 7 -->
+<div class="section">
+  <h2>7. Analisando Resultados nos Relatorios</h2>
+
+  <h3>Metricas Importantes</h3>
+  <table>
+    <tr><th>Metrica</th><th>O que significa</th><th>Meta ideal</th></tr>
+    <tr><td><strong>Visitantes</strong></td><td>Pessoas que viram sua pagina</td><td>Crescer 10% por semana</td></tr>
+    <tr><td><strong>Leads</strong></td><td>Pessoas que preencheram o formulario</td><td>10-30% dos visitantes</td></tr>
+    <tr><td><strong>Taxa de Conversao</strong></td><td>% de visitantes que viraram leads</td><td>Acima de 10%</td></tr>
+    <tr><td><strong>Vendas</strong></td><td>Leads que compraram</td><td>2-5% dos leads</td></tr>
+    <tr><td><strong>Receita</strong></td><td>Valor total vendido</td><td>Crescer mensalmente</td></tr>
+    <tr><td><strong>CAC</strong></td><td>Custo para adquirir 1 cliente</td><td>Menor que o valor do produto</td></tr>
+    <tr><td><strong>ROI</strong></td><td>Retorno sobre investimento</td><td>Acima de 300%</td></tr>
+  </table>
+
+  <h3>Como Interpretar</h3>
+  <div class="step">
+    <strong>Muitos visitantes, poucos leads?</strong> Sua landing page precisa de copy melhor ou mais confianca (depoimentos, garantia).
+  </div>
+  <div class="step">
+    <strong>Muitos leads, poucas vendas?</strong> Seu follow-up esta fraco ou o preco e alto demais. Tente ofertas de entrada.
+  </div>
+  <div class="step">
+    <strong>Poucos visitantes?</strong> Invista mais em anuncios ou crie mais conteudo organico (posts, reels).
+  </div>
+</div>
+
+<!-- SECAO 8 -->
+<div class="section">
+  <h2>8. Configuracoes e Webhooks</h2>
+
+  <h3>Pixels de Rastreamento</h3>
+  <p>Configure nas configuracoes da landing page para rastrear visitantes e criar publicos personalizados:</p>
+  <table>
+    <tr><th>Pixel</th><th>Para que serve</th><th>Onde configurar</th></tr>
+    <tr><td><strong>Meta Pixel</strong></td><td>Facebook/Instagram Ads</td><td>Configuracoes da LP > Meta Pixel ID</td></tr>
+    <tr><td><strong>TikTok Pixel</strong></td><td>TikTok Ads</td><td>Configuracoes da LP > TikTok Pixel ID</td></tr>
+    <tr><td><strong>GA4</strong></td><td>Google Analytics</td><td>Configuracoes da LP > GA4 ID</td></tr>
+    <tr><td><strong>GTM</strong></td><td>Google Tag Manager</td><td>Configuracoes da LP > GTM ID</td></tr>
+  </table>
+
+  <h3>Webhooks (Integracoes)</h3>
+  <p>Configure webhooks para receber notificacoes de plataformas de pagamento:</p>
+  <table>
+    <tr><th>Plataforma</th><th>URL do Webhook</th><th>O que faz</th></tr>
+    <tr><td><strong>Kiwify</strong></td><td><code>/api/webhooks/kiwify</code></td><td>Registra vendas automaticamente</td></tr>
+    <tr><td><strong>Hotmart</strong></td><td><code>/api/webhooks/hotmart</code></td><td>Registra vendas automaticamente</td></tr>
+  </table>
+
+  <div class="warning">
+    <strong>IMPORTANTE:</strong> Para que os webhooks funcionem, voce precisa configurar a URL na plataforma de pagamento (Kiwify, Hotmart, etc.) e o app precisa estar online.
+  </div>
+</div>
+
+<!-- SECAO 9 -->
+<div class="section">
+  <h2>9. Dicas Avancadas para Maximize Vendas</h2>
+
+  <h3>Estrategia de Precificacao</h3>
+  <div class="step">
+    <strong>Ancoragem:</strong> Sempre mostre o preco original riscado. Ex: "De R$497 por R$197"
+  </div>
+  <div class="step">
+    <strong>Parcelamento:</strong> Faca o preco parecer menor. Ex: "12x de R$37" e mais acessivel que "R$444"
+  </div>
+  <div class="step">
+    <strong>Bonus:</strong> Adicione valor percebido. Ex: "BONUS: Consultoria de R$500 incluida"
+  </div>
+
+  <h3>Urgencia e Escassez</h3>
+  <div class="step">
+    <strong>Countdown:</strong> Use o componente de contagem regressiva para criar prazo
+  </div>
+  <div class="step">
+    <strong>Vagas limitadas:</strong> "Restam apenas 20 vagas!" (mesmo que seja ilimitado)
+  </div>
+  <div class="step">
+    <strong>Preco temporal:</strong> "Preso sobe amanha!" ou "Ultimo dia de desconto"
+  </div>
+
+  <h3>Sequencia de Follow-up</h3>
+  <div class="workflow">
+    <div class="box">Dia 0: Lead chega</div>
+    <div class="arrow">&rarr;</div>
+    <div class="box">Dia 1: Email de boas-vindas</div>
+    <div class="arrow">&rarr;</div>
+    <div class="box">Dia 3: Conteudo de valor</div>
+    <div class="arrow">&rarr;</div>
+    <div class="box">Dia 5: Depoimento</div>
+    <div class="arrow">&rarr;</div>
+    <div class="box">Dia 7: Ultima chance</div>
+  </div>
+
+  <h3>Otimizacao Continua</h3>
+  <div class="step">
+    <strong>Teste A/B:</strong> Crie duas versoes da mesma pagina e veja qual converte mais (recurso futuro)
+  </div>
+  <div class="step">
+    <strong>Mude uma coisa por vez:</strong> Nao mude titulo, cores e botoes ao mesmo tempo. teste uma coisa de cada vez.
+  </div>
+  <div class="step">
+    <strong>Aguarde dados:</strong> Nao mude nada antes de ter pelo menos 100 visitantes na versao.
+  </div>
+</div>
+
+<!-- SECAO 10 -->
+<div class="section">
+  <h2>10. Fluxo Completo: Do Post a Venda</h2>
+
+  <p>Este e o fluxo ideal para usar o aplicativo do inicio ao fim:</p>
+
+  <div class="step">
+    <strong>1. Pesquise seu nicho</strong> - Descubra o que o publico quer comprar
+  </div>
+  <div class="step">
+    <strong>2. Crie a Landing Page</strong> - Use um template e personalize com seu produto
+  </div>
+  <div class="step">
+    <strong>3. Gere o conteudo</strong> - Use IA Copy para textos e IA Imagens para imagens
+  </div>
+  <div class="step">
+    <strong>4. Configure os pixels</strong> - Meta Pixel, TikTok, GA4 na landing page
+  </div>
+  <div class="step">
+    <strong>5. Crie a campanha</strong> - Vincule a landing page e defina orcamento
+  </div>
+  <div class="step">
+    <strong>6. Gere os posts</strong> - Use Posts e Legendas para criar conteudo semanal
+  </div>
+  <div class="step">
+    <strong>7. Publique nos stories/feed</strong> - Compartilhe o link da landing page
+  </div>
+  <div class="step">
+    <strong>8. Acompanhe no CRM</strong> - Responda leads rapidamente
+  </div>
+  <div class="step">
+    <strong>9. Analise os relatorios</strong> - Veja o que funcionou e repita
+  </div>
+  <div class="step">
+    <strong>10. Escale</strong> - Aumente orcamento no que esta dando resultado
+  </div>
+
+  <div class="tip" style="margin-top: 30px;">
+    <strong>LEMBRE-SE:</strong> O segredo e consistencia. Poste todo dia, responda todo lead rapido e teste sempre. Os resultados vem com o tempo!
+  </div>
+
+  <div style="margin-top: 40px; padding: 20px; background: #4c6ef5; color: white; border-radius: 12px; text-align: center;">
+    <h3 style="color: white;">Pronto para vender?</h3>
+    <p style="color: rgba(255,255,255,0.9);">Acesse http://localhost:3000 e comece agora!</p>
+  </div>
+</div>
+
+</body>
+</html>

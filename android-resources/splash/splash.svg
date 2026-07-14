@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4c6ef5"/>
+      <stop offset="100%" style="stop-color:#3b5bdb"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <!-- Logo V -->
+  <text x="540" y="850" font-family="Arial, Helvetica, sans-serif" font-size="300" font-weight="bold" fill="white" text-anchor="middle">V</text>
+  <text x="540" y="1020" font-family="Arial, Helvetica, sans-serif" font-size="80" font-weight="600" fill="rgba(255,255,255,0.9)" text-anchor="middle">IA</text>
+  <!-- Nome -->
+  <text x="540" y="1180" font-family="Arial, Helvetica, sans-serif" font-size="64" font-weight="bold" fill="white" text-anchor="middle">Venda Inteligente AI</text>
+  <text x="540" y="1260" font-family="Arial, Helvetica, sans-serif" font-size="36" fill="rgba(255,255,255,0.7)" text-anchor="middle">Marketing Inteligente com IA</text>
+</svg>

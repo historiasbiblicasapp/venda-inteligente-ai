@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Venda Inteligente AI</string>
+    <string name="title_activity_main">Venda Inteligente AI</string>
+    <string name="package_name">com.vendainteligente.ai</string>
+    <string name="custom_url_scheme">com.vendainteligente.ai</string>
+</resources>
