@@ -41,8 +41,8 @@ Para cada post, inclua a legenda completa. Separe cada post com "---".`;
     const results = content.split('---').map((r: string) => r.trim()).filter((r: string) => r.length > 0);
 
     return NextResponse.json({ results });
-  } catch {
-    return NextResponse.json({ error: 'Erro interno' }, { status: 500 });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message || 'Erro interno' }, { status: 500 });
   }
 }
 
