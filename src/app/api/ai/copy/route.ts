@@ -88,15 +88,19 @@ Retorne cada e-mail separado por "---".`,
     }
 
     const data = await response.json();
-    const content = data.choices[0]?.message?.content || '';
+    const content = data.choices?.[0]?.message?.content || '';
     
-    const results = content.split('\n').filter((line: string) => line.trim() && !line.match(/^\d+\.\s*$/) === false);
-    
-    const cleanedResults = results
-      .map((r: string) => r.replace(/^\d+[\.\)]\s*/, '').trim())
-      .filter((r: string) => r.length > 0);
+    if (content) {
+      const results = content.split('\n').filter((line: string) => line.trim() && !line.match(/^\d+\.\s*$/) === false);
+      
+      const cleanedResults = results
+        .map((r: string) => r.replace(/^\d+[\.\)]\s*/, '').trim())
+        .filter((r: string) => r.length > 0);
 
-    return NextResponse.json({ results: cleanedResults });
+      return NextResponse.json({ results: cleanedResults });
+    }
+
+    return NextResponse.json({ results: getMockResults(type, productName) });
   } catch {
     return NextResponse.json({ error: 'Erro interno' }, { status: 500 });
   }
