@@ -17,6 +17,7 @@ import {
   Shield,
   ChevronLeft,
   ChevronRight,
+  Film,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
@@ -28,6 +29,7 @@ const baseNavigation = [
   { name: 'CRM', href: '/dashboard/crm', icon: Users },
   { name: 'IA Copy', href: '/dashboard/ai-copy', icon: Bot },
   { name: 'IA Imagens', href: '/dashboard/ai-images', icon: ImageIcon },
+  { name: 'IA Video', href: '/dashboard/ai-video', icon: Film },
   { name: 'Posts & Legendas', href: '/dashboard/posts', icon: MessageSquare },
   { name: 'Relatórios', href: '/dashboard/reports', icon: BarChart3 },
   { name: 'Configurações', href: '/dashboard/settings', icon: Settings },
