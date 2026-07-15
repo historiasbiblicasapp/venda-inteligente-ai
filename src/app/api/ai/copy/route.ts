@@ -1,11 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { type, productName, targetAudience, productDescription, tone, platform, additionalInfo } = body;
+    const body = await request.text();
+    const parsed = body ? JSON.parse(body) : {};
+    const { type = 'titles', productName = '', targetAudience = '', productDescription = '', tone = 'Profissional', platform = 'instagram', additionalInfo = '' } = parsed;
 
     if (!productName) {
       return NextResponse.json({ error: 'Nome do produto é obrigatório' }, { status: 400 });

@@ -1,10 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const { prompt, formats, style, brandColors } = await request.json();
+    const body = await request.text();
+    const parsed = body ? JSON.parse(body) : {};
+    const { prompt = '', formats = [], style = 'moderno', brandColors = '#4c6ef5' } = parsed;
 
     if (!prompt) {
       return NextResponse.json({ error: 'Descrição é obrigatória' }, { status: 400 });

@@ -1,9 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { createServerSupabase } from '@/lib/supabase/server';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const raw = await request.text();
+    const body = raw ? JSON.parse(raw) : {};
     const supabase = createServerSupabase();
 
     const { data } = body;

@@ -1,9 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { createServerSupabase } from '@/lib/supabase/server';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const raw = await request.text();
+    const body = raw ? JSON.parse(raw) : {};
     const { landing_page_id, visitor_id, event_type, event_data, page_variant, utm_source, utm_medium, utm_campaign, referrer } = body;
 
     if (!landing_page_id || !visitor_id || !event_type) {
