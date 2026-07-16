@@ -342,17 +342,48 @@ export default function AIVideoPage() {
   const addScene = () => {
     if (!videoData) return;
     const newId = Math.max(...videoData.scenes.map(s => s.id), 0) + 1;
+    const totalScenes = videoData.scenes.length + 1;
+    const avgDuration = Math.ceil(videoData.duration / totalScenes);
     setVideoData({
       ...videoData,
       scenes: [...videoData.scenes, {
         id: newId,
         narration: '',
         onScreenText: '',
-        imagePrompt: 'Professional cinematic scene, modern marketing',
-        imageUrl: `https://placehold.co/${videoData.resolution.w}x${videoData.resolution.h}/333/fff?text=New+Scene`,
-        duration: 3,
+        imagePrompt: '',
+        imageUrl: '',
+        duration: avgDuration,
       }],
     });
+  };
+
+  const generateSceneImage = async (sceneId: number) => {
+    if (!videoData) return;
+    const scene = videoData.scenes.find(s => s.id === sceneId);
+    if (!scene) return;
+
+    const text = scene.narration || scene.onScreenText || 'cinematic marketing scene';
+    const prompt = `Cinematic still frame for social media video. ${text}. Style: professional, dramatic lighting, 8K, photorealistic, no text, no watermark.`;
+    const seed = Math.floor(Math.random() * 10000);
+    const encoded = encodeURIComponent(prompt);
+    const { w, h } = videoData.resolution;
+    const url = `https://image.pollinations.ai/prompt/${encoded}?width=${w}&height=${h}&seed=${seed}&model=flux&nologo=true&enhance=true`;
+
+    updateScene(sceneId, 'imagePrompt', prompt);
+    updateScene(sceneId, 'imageUrl', url);
+  };
+
+  const regenerateSceneImage = async (sceneId: number) => {
+    await generateSceneImage(sceneId);
+  };
+
+  const generateAllImages = async () => {
+    if (!videoData) return;
+    toast.loading('Gerando imagens para todas as cenas...', { id: 'gen-all' });
+    for (const scene of videoData.scenes) {
+      await generateSceneImage(scene.id);
+    }
+    toast.success('Todas as imagens geradas!', { id: 'gen-all' });
   };
 
   return (
@@ -460,6 +491,9 @@ export default function AIVideoPage() {
                     <button onClick={addScene} className="text-xs text-brand-600 hover:text-brand-700 font-medium inline-flex items-center gap-1">
                       <Plus className="w-3 h-3" /> Cena
                     </button>
+                    <button onClick={generateAllImages} className="text-xs text-emerald-600 hover:text-emerald-700 font-medium inline-flex items-center gap-1">
+                      <Sparkles className="w-3 h-3" /> Gerar Todas
+                    </button>
                     <button
                       onClick={renderVideo}
                       disabled={rendering}
@@ -538,6 +572,23 @@ export default function AIVideoPage() {
                           className="input-field text-xs w-full"
                           placeholder="Texto que aparece na tela..."
                         />
+                      </div>
+
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => generateSceneImage(scene.id)}
+                          className="text-[10px] bg-brand-50 text-brand-600 hover:bg-brand-100 px-2 py-1 rounded font-medium inline-flex items-center gap-1"
+                        >
+                          <Sparkles className="w-3 h-3" /> Gerar Imagem
+                        </button>
+                        {scene.imageUrl && (
+                          <button
+                            onClick={() => regenerateSceneImage(scene.id)}
+                            className="text-[10px] bg-surface-100 text-surface-600 hover:bg-surface-200 px-2 py-1 rounded font-medium inline-flex items-center gap-1"
+                          >
+                            <Sparkles className="w-3 h-3" /> Regenerar
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
