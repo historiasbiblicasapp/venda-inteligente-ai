@@ -56,12 +56,11 @@ function getSceneImagePrompt(narration: string, platform: string, style: string,
   return `${context}, ${styleDesc}. Scene depicting: ${clean}. Mood: ${mood}. Shot on Sony A7IV, 35mm lens, f/1.8, 8K resolution, photorealistic, award-winning photography, no text, no watermark, no logos, no people faces.`;
 }
 
-function generateScenesFromScript(script: string, platform: string, style: string): Scene[] {
+function generateScenesFromScript(script: string, platform: string, style: string, totalDurationSec: number = 15): Scene[] {
   const lines = script.split('\n').filter(l => l.trim());
   const scenes: Scene[] = [];
   let currentNarration = '';
   let currentOnScreen = '';
-  let sceneId = 1;
 
   for (const line of lines) {
     const trimmed = line.trim();
@@ -73,12 +72,12 @@ function generateScenesFromScript(script: string, platform: string, style: strin
     if (falaMatch) {
       if (currentNarration) {
         scenes.push({
-          id: sceneId++,
+          id: scenes.length + 1,
           narration: currentNarration,
           onScreenText: currentOnScreen,
           imagePrompt: '',
           imageUrl: '',
-          duration: Math.max(3, Math.ceil(currentNarration.split(' ').length / 3)),
+          duration: 0,
         });
         currentOnScreen = '';
       }
@@ -95,12 +94,12 @@ function generateScenesFromScript(script: string, platform: string, style: strin
 
   if (currentNarration) {
     scenes.push({
-      id: sceneId++,
+      id: scenes.length + 1,
       narration: currentNarration,
       onScreenText: currentOnScreen,
       imagePrompt: '',
       imageUrl: '',
-      duration: Math.max(3, Math.ceil(currentNarration.split(' ').length / 3)),
+      duration: 0,
     });
   }
 
@@ -110,25 +109,30 @@ function generateScenesFromScript(script: string, platform: string, style: strin
       const trimmed = sentence.trim();
       if (trimmed) {
         scenes.push({
-          id: sceneId++,
+          id: scenes.length + 1,
           narration: trimmed,
           onScreenText: '',
           imagePrompt: '',
           imageUrl: '',
-          duration: Math.max(3, Math.ceil(trimmed.split(' ').length / 3)),
+          duration: 0,
         });
       }
     }
   }
 
+  const numScenes = scenes.length || 1;
+  const secsPerScene = Math.ceil(totalDurationSec / numScenes);
+
   const total = scenes.length;
   return scenes.map((s, i) => ({
     ...s,
+    duration: i === total - 1 ? totalDurationSec - secsPerScene * (total - 1) : secsPerScene,
     imagePrompt: getSceneImagePrompt(s.narration, platform, style, i, total),
   }));
 }
 
 function generateMockScenes(productName: string, platform: string, style: string, duration: string): Scene[] {
+  const totalSec = parseInt(duration) || 15;
   const scenesByDuration: Record<string, string[]> = {
     '15': [
       `[Fala] "Voce sabia que 90% das pessoas desistem antes de ver resultado?" [Tela] Texto: "E se voce pudesse mudar isso?"`,
@@ -146,12 +150,14 @@ function generateMockScenes(productName: string, platform: string, style: string
       `[Fala] "Ate que descobri um padrao que mudou tudo. E criei o ${productName} pra te ensinar exatamente isso." [Tela] Logo do ${productName} com animacao`,
       `[Fala] "E um metodo passo a passo. Sem enrolacao. Sem teoria sem aplicacao. Apenas o que funciona de verdade." [Tela] Lista de modulos com checkmarks`,
       `[Fala] "Meus alunos ja estao tendo resultados incriveis. E voce pode ser o proximo." [Tela] Depoimentos e resultados`,
-      `[Fala] "Clique no link, garanta sua vaga e comence sua transformacao hoje. Vagas limitadas!" [Tela] Botao CTA grande e animado`,
+      `[CTA] "Clique no link, garanta sua vaga e comence sua transformacao hoje. Vagas limitadas!" [Tela] Botao CTA grande e animado`,
     ],
   };
 
   const sceneTexts = scenesByDuration[duration] || scenesByDuration['15'];
-  const total = sceneTexts.length;
+  const numScenes = sceneTexts.length;
+  const secsPerScene = Math.ceil(totalSec / numScenes);
+  const total = numScenes;
 
   return sceneTexts.map((text, i) => {
     const falaMatch = text.match(/\[Fala\]\s*"?([^"]*)"?/);
@@ -167,7 +173,7 @@ function generateMockScenes(productName: string, platform: string, style: string
       onScreenText: onScreen,
       imagePrompt: getSceneImagePrompt(narration || onScreen, platform, style, i, total),
       imageUrl: '',
-      duration: Math.max(3, Math.ceil(narration.split(' ').length / 3)),
+      duration: i === numScenes - 1 ? totalSec - secsPerScene * (numScenes - 1) : secsPerScene,
     };
   });
 }
@@ -192,7 +198,7 @@ export async function POST(request: Request) {
     let scenes: Scene[];
 
     if (script) {
-      scenes = generateScenesFromScript(script, platform, style);
+      scenes = generateScenesFromScript(script, platform, style, parseInt(duration) || 15);
     } else if (!process.env.OPENAI_API_KEY) {
       scenes = generateMockScenes(productName, platform, style, duration);
     } else {
@@ -225,7 +231,7 @@ Gere de 3 a 5 cenas. Retorne apenas o roteiro.`;
         const content = aiData.choices?.[0]?.message?.content || '';
 
         if (content) {
-          scenes = generateScenesFromScript(content, platform, style);
+          scenes = generateScenesFromScript(content, platform, style, parseInt(duration) || 15);
         } else {
           scenes = generateMockScenes(productName, platform, style, duration);
         }
