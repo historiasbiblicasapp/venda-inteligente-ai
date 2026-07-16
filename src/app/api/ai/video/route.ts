@@ -21,14 +21,39 @@ const RESOLUTIONS: Record<string, { w: number; h: number }> = {
   'square': { w: 1080, h: 1080 },
 };
 
-function getSceneImagePrompt(narration: string, platform: string, style: string): string {
-  const base = narration
+function getSceneImagePrompt(narration: string, platform: string, style: string, sceneIndex: number, totalScenes: number): string {
+  const clean = narration
     .replace(/\[.*?\]/g, '')
     .replace(/\*\*/g, '')
     .replace(/"/g, '')
     .trim()
-    .slice(0, 150);
-  return `Cinematic still frame for a ${platform} short video. ${base}. Style: ${style}. No text overlay, no watermarks, high quality, professional photography, dramatic lighting.`;
+    .slice(0, 120);
+
+  const styleMap: Record<string, string> = {
+    'Moderno e profissional': 'clean modern aesthetic, soft studio lighting, neutral tones, professional business setting',
+    'Minimalista': 'minimalist composition, lots of negative space, simple geometric shapes, muted colors',
+    'Colorido e vibrante': 'vibrant saturated colors, dynamic composition, energetic mood, bold contrasts',
+    'Elegante e sofisticado': 'luxurious atmosphere, gold and dark tones, elegant bokeh, premium feel',
+    'Casual e amigavel': 'warm natural lighting, friendly inviting atmosphere, casual lifestyle setting',
+    'Futurista': 'futuristic cyberpunk style, neon lights, dark background, tech aesthetic, holographic elements',
+  };
+
+  const styleDesc = styleMap[style] || styleMap['Moderno e profissional'];
+
+  const sceneContext: string[] = [
+    'opening shot, wide angle, establishing scene, dramatic reveal',
+    'medium close-up portrait, natural expression, engaging moment, focus on subject',
+    'dynamic action shot, motion blur, energy and movement, decisive moment',
+    'beautiful detail shot, shallow depth of field, artistic composition, key element',
+    'epic wide shot, breathtaking view, cinematic scale, powerful ending',
+  ];
+
+  const context = sceneContext[sceneIndex % sceneContext.length];
+  const mood = sceneIndex === 0 ? 'attention-grabbing, hook moment' :
+               sceneIndex === totalScenes - 1 ? 'powerful call to action, inspiring finale' :
+               'engaging storytelling moment, emotional connection';
+
+  return `${context}, ${styleDesc}. Scene depicting: ${clean}. Mood: ${mood}. Shot on Sony A7IV, 35mm lens, f/1.8, 8K resolution, photorealistic, award-winning photography, no text, no watermark, no logos, no people faces.`;
 }
 
 function generateScenesFromScript(script: string, platform: string, style: string): Scene[] {
@@ -51,7 +76,7 @@ function generateScenesFromScript(script: string, platform: string, style: strin
           id: sceneId++,
           narration: currentNarration,
           onScreenText: currentOnScreen,
-          imagePrompt: getSceneImagePrompt(currentNarration, platform, style),
+          imagePrompt: '',
           imageUrl: '',
           duration: Math.max(3, Math.ceil(currentNarration.split(' ').length / 3)),
         });
@@ -73,7 +98,7 @@ function generateScenesFromScript(script: string, platform: string, style: strin
       id: sceneId++,
       narration: currentNarration,
       onScreenText: currentOnScreen,
-      imagePrompt: getSceneImagePrompt(currentNarration, platform, style),
+      imagePrompt: '',
       imageUrl: '',
       duration: Math.max(3, Math.ceil(currentNarration.split(' ').length / 3)),
     });
@@ -88,7 +113,7 @@ function generateScenesFromScript(script: string, platform: string, style: strin
           id: sceneId++,
           narration: trimmed,
           onScreenText: '',
-          imagePrompt: getSceneImagePrompt(trimmed, platform, style),
+          imagePrompt: '',
           imageUrl: '',
           duration: Math.max(3, Math.ceil(trimmed.split(' ').length / 3)),
         });
@@ -96,7 +121,11 @@ function generateScenesFromScript(script: string, platform: string, style: strin
     }
   }
 
-  return scenes;
+  const total = scenes.length;
+  return scenes.map((s, i) => ({
+    ...s,
+    imagePrompt: getSceneImagePrompt(s.narration, platform, style, i, total),
+  }));
 }
 
 function generateMockScenes(productName: string, platform: string, style: string, duration: string): Scene[] {
@@ -122,6 +151,7 @@ function generateMockScenes(productName: string, platform: string, style: string
   };
 
   const sceneTexts = scenesByDuration[duration] || scenesByDuration['15'];
+  const total = sceneTexts.length;
 
   return sceneTexts.map((text, i) => {
     const falaMatch = text.match(/\[Fala\]\s*"?([^"]*)"?/);
@@ -135,7 +165,7 @@ function generateMockScenes(productName: string, platform: string, style: string
       id: i + 1,
       narration,
       onScreenText: onScreen,
-      imagePrompt: getSceneImagePrompt(narration || onScreen, platform, style),
+      imagePrompt: getSceneImagePrompt(narration || onScreen, platform, style, i, total),
       imageUrl: '',
       duration: Math.max(3, Math.ceil(narration.split(' ').length / 3)),
     };

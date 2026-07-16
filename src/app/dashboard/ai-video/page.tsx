@@ -66,7 +66,7 @@ export default function AIVideoPage() {
         const res = data.resolution;
         return {
           ...s,
-          imageUrl: `https://image.pollinations.ai/prompt/${encoded}?width=${res.w}&height=${res.h}&seed=${seed}&nologo=true`,
+          imageUrl: `https://image.pollinations.ai/prompt/${encoded}?width=${res.w}&height=${res.h}&seed=${seed}&model=flux&nologo=true&enhance=true`,
         };
       });
       setVideoData({ scenes: scenesWithImages, resolution: data.resolution, duration: data.duration });
@@ -108,26 +108,36 @@ export default function AIVideoPage() {
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, w, h);
 
+    const isVertical = h > w;
+
     if (img && img.complete && img.naturalWidth > 0) {
       const imgRatio = img.naturalWidth / img.naturalHeight;
       const canvasRatio = w / h;
-      let drawW: number, drawH: number, offsetX: number, offsetY: number;
+      let drawW: number, drawH: number;
 
       if (imgRatio > canvasRatio) {
-        drawH = h * 1.15;
+        drawH = h * 1.2;
         drawW = drawH * imgRatio;
       } else {
-        drawW = w * 1.15;
+        drawW = w * 1.2;
         drawH = drawW / imgRatio;
       }
 
-      const zoomProgress = progress;
-      const panX = Math.sin(zoomProgress * Math.PI) * w * 0.03;
-      const panY = Math.cos(zoomProgress * Math.PI * 0.5) * h * 0.02;
-      offsetX = (w - drawW) / 2 + panX;
-      offsetY = (h - drawH) / 2 + panY;
+      const kenBurnsType = scene.id % 4;
+      let scale = 1;
+      let panX = 0;
+      let panY = 0;
 
-      const scale = 1 + zoomProgress * 0.08;
+      switch (kenBurnsType) {
+        case 0: scale = 1 + progress * 0.12; break;
+        case 1: scale = 1.12 - progress * 0.12; break;
+        case 2: scale = 1.06; panX = (progress - 0.5) * w * 0.06; break;
+        case 3: scale = 1.06; panY = (progress - 0.5) * h * 0.04; break;
+      }
+
+      const offsetX = (w - drawW) / 2;
+      const offsetY = (h - drawH) / 2;
+
       ctx.save();
       ctx.translate(w / 2, h / 2);
       ctx.scale(scale, scale);
@@ -135,21 +145,45 @@ export default function AIVideoPage() {
       ctx.drawImage(img, offsetX, offsetY, drawW, drawH);
       ctx.restore();
 
-      const gradient = ctx.createLinearGradient(0, h * 0.6, 0, h);
-      gradient.addColorStop(0, 'rgba(0,0,0,0)');
-      gradient.addColorStop(1, 'rgba(0,0,0,0.85)');
-      ctx.fillStyle = gradient;
+      if (isVertical) {
+        const topGrad = ctx.createLinearGradient(0, 0, 0, h * 0.25);
+        topGrad.addColorStop(0, 'rgba(0,0,0,0.6)');
+        topGrad.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = topGrad;
+        ctx.fillRect(0, 0, w, h * 0.25);
+
+        const botGrad = ctx.createLinearGradient(0, h * 0.55, 0, h);
+        botGrad.addColorStop(0, 'rgba(0,0,0,0)');
+        botGrad.addColorStop(0.5, 'rgba(0,0,0,0.5)');
+        botGrad.addColorStop(1, 'rgba(0,0,0,0.88)');
+        ctx.fillStyle = botGrad;
+        ctx.fillRect(0, h * 0.55, w, h * 0.45);
+      } else {
+        const botGrad = ctx.createLinearGradient(0, h * 0.5, 0, h);
+        botGrad.addColorStop(0, 'rgba(0,0,0,0)');
+        botGrad.addColorStop(1, 'rgba(0,0,0,0.82)');
+        ctx.fillStyle = botGrad;
+        ctx.fillRect(0, h * 0.5, w, h * 0.5);
+      }
+
+      const vigRadius = Math.max(w, h) * 0.75;
+      const vigGrad = ctx.createRadialGradient(w / 2, h / 2, vigRadius * 0.4, w / 2, h / 2, vigRadius);
+      vigGrad.addColorStop(0, 'rgba(0,0,0,0)');
+      vigGrad.addColorStop(1, 'rgba(0,0,0,0.35)');
+      ctx.fillStyle = vigGrad;
       ctx.fillRect(0, 0, w, h);
     }
 
     const displayText = scene.onScreenText || scene.narration;
     if (displayText) {
-      const fontSize = Math.max(20, Math.min(w * 0.045, 48));
-      ctx.font = `bold ${fontSize}px "Inter", "Segoe UI", system-ui, sans-serif`;
+      const fontSize = isVertical
+        ? Math.max(28, Math.min(w * 0.06, 56))
+        : Math.max(22, Math.min(w * 0.038, 44));
+      ctx.font = `800 ${fontSize}px "Inter", "Segoe UI", system-ui, sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
-      const maxWidth = w * 0.85;
+      const maxWidth = w * 0.88;
       const words = displayText.split(' ');
       const lines: string[] = [];
       let currentLine = '';
@@ -165,21 +199,41 @@ export default function AIVideoPage() {
       }
       if (currentLine) lines.push(currentLine);
 
-      const lineHeight = fontSize * 1.4;
-      const totalHeight = lines.length * lineHeight;
-      const startY = h * 0.78 - totalHeight / 2;
+      const lineHeight = fontSize * 1.5;
+      const totalTextHeight = lines.length * lineHeight;
+      const textBlockCenterY = isVertical ? h * 0.8 : h * 0.82;
+      const startY = textBlockCenterY - totalTextHeight / 2;
 
       for (let i = 0; i < lines.length; i++) {
+        const lineProgress = Math.min(1, Math.max(0, (progress * lines.length * 1.5) - i * 0.5));
+        if (lineProgress <= 0) continue;
+
         const y = startY + i * lineHeight;
-        ctx.shadowColor = 'rgba(0,0,0,0.9)';
-        ctx.shadowBlur = 10;
-        ctx.shadowOffsetX = 2;
+        const alpha = lineProgress;
+        const slideY = (1 - lineProgress) * 15;
+
+        ctx.save();
+        ctx.globalAlpha = alpha;
+
+        ctx.strokeStyle = 'rgba(0,0,0,0.8)';
+        ctx.lineWidth = fontSize * 0.12;
+        ctx.lineJoin = 'round';
+        ctx.miterLimit = 2;
+        ctx.strokeText(lines[i], w / 2, y + slideY);
+
+        ctx.shadowColor = 'rgba(0,0,0,0.6)';
+        ctx.shadowBlur = 8;
+        ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 2;
         ctx.fillStyle = '#ffffff';
-        ctx.fillText(lines[i], w / 2, y);
-        ctx.shadowBlur = 0;
+        ctx.fillText(lines[i], w / 2, y + slideY);
+
+        ctx.restore();
       }
     }
+
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
+    ctx.fillRect(0, h - 3, w * progress, 3);
   }, []);
 
   const renderVideo = useCallback(async () => {
