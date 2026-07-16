@@ -21,13 +21,41 @@ const RESOLUTIONS: Record<string, { w: number; h: number }> = {
   'square': { w: 1080, h: 1080 },
 };
 
+function narrationToVisual(text: string): string {
+  const lower = text.toLowerCase();
+  if (/desist|frustr|trist|raiva|problema|dificult|nada funcion/.test(lower)) {
+    return 'frustrated person, stressed, dark moody atmosphere, dramatic shadows';
+  }
+  if (/resultado|transform|sucesso|vitor|cresc|melhor|conquist/.test(lower)) {
+    return 'success celebration, bright golden light, achievement moment, confident pose';
+  }
+  if (/produto|app|plataforma|sistem|ferramenta|metodo|curso/.test(lower)) {
+    return 'modern technology interface, sleek product showcase, clean UI design, professional demo';
+  }
+  if (/aluno|cliente|pessoa|gente|voce|eu/.test(lower)) {
+    return 'diverse group of people, professional setting, warm natural lighting, lifestyle';
+  }
+  if (/link|clique|garant|vaga|oferta|compr|grab/.test(lower)) {
+    return 'urgent call to action, glowing button, countdown timer, dynamic composition';
+  }
+  if (/passo|etapa|aprend|ensin|comoindo|list/.test(lower)) {
+    return 'step by step process, numbered list visual, organized layout, instructional design';
+  }
+  if (/preco|valor|r\$|gratuito|free|pagamento/.test(lower)) {
+    return 'pricing display, value proposition, professional business card, clean typography';
+  }
+  return 'cinematic marketing scene, professional photography, dramatic lighting, modern aesthetic';
+}
+
 function getSceneImagePrompt(narration: string, platform: string, style: string, sceneIndex: number, totalScenes: number): string {
-  const clean = narration
+  const raw = narration
     .replace(/\[.*?\]/g, '')
     .replace(/\*\*/g, '')
     .replace(/"/g, '')
     .trim()
-    .slice(0, 120);
+    .slice(0, 200);
+
+  const visualDesc = narrationToVisual(raw);
 
   const styleMap: Record<string, string> = {
     'Moderno e profissional': 'clean modern aesthetic, soft studio lighting, neutral tones, professional business setting',
@@ -53,7 +81,7 @@ function getSceneImagePrompt(narration: string, platform: string, style: string,
                sceneIndex === totalScenes - 1 ? 'powerful call to action, inspiring finale' :
                'engaging storytelling moment, emotional connection';
 
-  return `${context}, ${styleDesc}. Scene depicting: ${clean}. Mood: ${mood}. Shot on Sony A7IV, 35mm lens, f/1.8, 8K resolution, photorealistic, award-winning photography, no text, no watermark, no logos, no people faces.`;
+  return `${context}, ${styleDesc}. Scene: ${visualDesc}. Mood: ${mood}. Shot on Sony A7IV, 35mm lens, f/1.8, 8K resolution, photorealistic, award-winning photography, absolutely no text, no watermark, no logos, no letters, no words, no people faces.`;
 }
 
 function generateScenesFromScript(script: string, platform: string, style: string, totalDurationSec: number = 15): Scene[] {

@@ -357,13 +357,40 @@ export default function AIVideoPage() {
     });
   };
 
+  const narrationToVisual = (text: string): string => {
+    const lower = text.toLowerCase();
+    if (/desist|frustr|trist|raiva|problema|dificuldad|nada funcion/.test(lower)) {
+      return 'frustrated person, stressed, dark moody atmosphere, dramatic shadows';
+    }
+    if (/resultado|transform|sucesso|vitor|cresc|melhor|conquist/.test(lower)) {
+      return 'success celebration, bright golden light, achievement moment, confident pose';
+    }
+    if (/produto|app|plataforma|sistem| ferramenta|metodo|curso/.test(lower)) {
+      return 'modern technology interface, sleek product showcase, clean UI design, professional demo';
+    }
+    if (/aluno|cliente|pessoa|gente|voce|eu/.test(lower)) {
+      return 'diverse group of people, professional setting, warm natural lighting, lifestyle';
+    }
+    if (/link|clique|garant|vaga|oferta|compr|grab/.test(lower)) {
+      return 'urgent call to action, glowing button, countdown timer, dynamic composition';
+    }
+    if (/passo|etapa|aprend|ensin|comoindo|list/.test(lower)) {
+      return 'step by step process, numbered list visual, organized layout, instructional design';
+    }
+    if (/preco|valor|r\$|gratuito|free|pagamento/.test(lower)) {
+      return 'pricing display, value proposition, professional business card, clean typography';
+    }
+    return 'cinematic marketing scene, professional photography, dramatic lighting, modern aesthetic';
+  };
+
   const generateSceneImage = async (sceneId: number) => {
     if (!videoData) return;
     const scene = videoData.scenes.find(s => s.id === sceneId);
     if (!scene) return;
 
-    const text = scene.narration || scene.onScreenText || 'cinematic marketing scene';
-    const prompt = `Cinematic still frame for social media video. ${text}. Style: professional, dramatic lighting, 8K, photorealistic, no text, no watermark.`;
+    const rawText = scene.narration || scene.onScreenText || '';
+    const visualDesc = narrationToVisual(rawText);
+    const prompt = `Cinematic still frame for social media video. ${visualDesc}. Style: professional, dramatic lighting, 8K, photorealistic, no text, no watermark, no letters, no words.`;
     const seed = Math.floor(Math.random() * 10000);
     const encoded = encodeURIComponent(prompt);
     const { w, h } = videoData.resolution;
